@@ -1,0 +1,1 @@
+{"version":3,"file":"catchAync.js","sourceRoot":"","sources":["../../src/utils/catchAync.ts"],"names":[],"mappings":";;;AACQ,MAAM,UAAU,GAAG,CAAC,IAAa,EAAE,EAAE;IACzC,OAAO,CAAC,GAAW,EAAE,GAAY,EAAE,IAAiB,EAAE,EAAE;QACpD,IAAI,CAAC,GAAG,EAAE,GAAG,EAAE,IAAI,CAAC,CAAC,KAAK,CAAC,IAAI,CAAC,CAAC;IACrC,CAAC,CAAA;AACL,CAAC,CAAA;AAJa,QAAA,UAAU,cAIvB"}

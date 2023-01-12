@@ -1,0 +1,25 @@
+<% layout('/layout/boilerplate') -%>
+<div class="container text-center">
+    <div class="row">
+        <div class="col-10 offset-1">
+            <h2>Notes</h2>
+            <div class="row row-cols-1 row-cols-xl-2 row-cols-xxl-3">
+                <% for(note of notes){ %>
+                <div class="col">
+                    <div class="card m-2">
+                        <div class="card-body">
+                            <h5 class="card-title fs-4"><%= note.title %></h5>
+                            <p class="card-text"><%= note.noteBody %></p>
+                            <a href="/notes/<%= note._id %>">show</a>
+                        </div>
+                        <div class="card-footer">
+                            <div>12.11.2022</div>
+                        </div>
+                    </div>
+                </div>
+                <% } %>
+            </div>
+        </div>
+    </div>
+</div>
+<link rel="stylesheet" href="css/notes/index.css">
