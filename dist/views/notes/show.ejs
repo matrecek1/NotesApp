@@ -2,6 +2,14 @@
 <div class="row vh-100">
     <div class="col-8 offset-2">
         <div style="height:90%" class="card text-center w-100">
+            <div class="card-header">
+                <div class="card-links ms-auto">
+                    <a href="/notes/<%= note._id %>/edit">edit</a>
+                    <form action="/notes/<%= note._id %>?_method=DELETE" method="post">
+                        <button type="submit" class="btn btn-sm btn-danger">delete</button>
+                    </form>
+                </div>
+            </div>
             <div class="card-body">
                 <h5 class="card-title fs-2"><%= note.title %> </h5>
                 <p class="card-text fs-3"><%= note.noteBody %></p>

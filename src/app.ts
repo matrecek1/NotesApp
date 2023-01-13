@@ -1,8 +1,8 @@
-import express, {Request, Response, NextFunction} from 'express';
+import express, { Request, Response, NextFunction } from 'express';
 import mongoose from 'mongoose';
 import ejsMate from 'ejs-mate';
 import path from 'path';
-
+import methodOverride from 'method-override';
 
 import notesRoutes from './routes/notes'
 
@@ -20,11 +20,12 @@ app.set("view engine", 'ejs')
 
 app.use(express.urlencoded())
 app.use(express.json())
+app.use(methodOverride('_method'))
 app.use("/notes", notesRoutes)
 app.use(express.static(path.join(__dirname, 'public')))
 
-app.use((err:Error, req:Request, res: Response, next:NextFunction) => {
-    res.status(500).render("error", {err})
+app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
+    res.status(500).render("error", { err })
 })
 
 

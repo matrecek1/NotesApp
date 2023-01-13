@@ -8,8 +8,9 @@ const notes_1 = require("../controllers/notes");
 router.post('/', addDate_1.addDate, (0, catchAync_1.catchAsync)(notes_1.createNote));
 router.get('/new', notes_1.newNoteForm);
 router.get('/', (0, catchAync_1.catchAsync)(notes_1.index));
+router.put('/:id', (0, catchAync_1.catchAsync)(notes_1.updateNote));
 router.get('/:id', (0, catchAync_1.catchAsync)(notes_1.showNote));
-router.patch('/:id', (0, catchAync_1.catchAsync)(notes_1.updateNote));
+router.get('/:id/edit', (0, catchAync_1.catchAsync)(notes_1.editNoteForm));
 router.delete('/:id', (0, catchAync_1.catchAsync)(notes_1.deleteNote));
 exports.default = router;
 //# sourceMappingURL=notes.js.map

@@ -12,8 +12,8 @@
                             <p class="card-text"><%= note.noteBody %></p>
                             <a href="/notes/<%= note._id %>">show</a>
                         </div>
-                        <div class="card-footer">
-                            <div>12.11.2022</div>
+                        <div class="card-footer text-muted">
+                            <div class="ms-auto"><%= note.dateOfCreation.toLocaleDateString() %></div>
                         </div>
                     </div>
                 </div>

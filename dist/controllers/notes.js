@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteNote = exports.updateNote = exports.showNote = exports.createNote = exports.newNoteForm = exports.index = void 0;
+exports.deleteNote = exports.updateNote = exports.editNoteForm = exports.showNote = exports.createNote = exports.newNoteForm = exports.index = void 0;
 const notes_1 = require("../models/notes");
 const index = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const notes = yield notes_1.Note.find();
@@ -32,10 +32,27 @@ const showNote = (req, res, next) => __awaiter(void 0, void 0, void 0, function*
     res.render('notes/show', { note });
 });
 exports.showNote = showNote;
-const updateNote = (req, res, next) => {
-};
+const editNoteForm = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const note = yield notes_1.Note.findById(req.params.id);
+    res.render('notes/edit', { note });
+});
+exports.editNoteForm = editNoteForm;
+const updateNote = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.params;
+    console.log(req.body);
+    const note = yield notes_1.Note.findByIdAndUpdate(id, Object.assign({}, req.body.note));
+    if (note) {
+        console.log(note);
+        note.save();
+        res.redirect('/notes/' + id);
+    }
+    throw new Error('note didnt update');
+});
 exports.updateNote = updateNote;
-const deleteNote = (req, res, next) => {
-};
+const deleteNote = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.params;
+    const note = yield notes_1.Note.findByIdAndDelete(id);
+    res.redirect('/notes');
+});
 exports.deleteNote = deleteNote;
 //# sourceMappingURL=notes.js.map
