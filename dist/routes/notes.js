@@ -12,5 +12,6 @@ router.put('/:id', (0, catchAync_1.catchAsync)(notes_1.updateNote));
 router.get('/:id', (0, catchAync_1.catchAsync)(notes_1.showNote));
 router.get('/:id/edit', (0, catchAync_1.catchAsync)(notes_1.editNoteForm));
 router.delete('/:id', (0, catchAync_1.catchAsync)(notes_1.deleteNote));
+router.get('/categories/:category', (0, catchAync_1.catchAsync)(notes_1.getCategories));
 exports.default = router;
 //# sourceMappingURL=notes.js.map

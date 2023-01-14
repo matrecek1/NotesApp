@@ -18,7 +18,7 @@ const noteSchema = new Schema<INote>({
         required: true
     },
     category: {
-        String,
+        type:String,
     },
     tags: [String],
     dateOfCreation: {

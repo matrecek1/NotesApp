@@ -4,3 +4,7 @@
 .card-footer .ms-auto {
     width: fit-content;
 }
+
+#sidebar-nav {
+    border-right: 1px solid black;
+}

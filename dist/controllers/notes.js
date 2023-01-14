@@ -9,11 +9,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteNote = exports.updateNote = exports.editNoteForm = exports.showNote = exports.createNote = exports.newNoteForm = exports.index = void 0;
+exports.getCategories = exports.deleteNote = exports.updateNote = exports.editNoteForm = exports.showNote = exports.createNote = exports.newNoteForm = exports.index = void 0;
 const notes_1 = require("../models/notes");
+const getSorters_1 = require("../utils/getSorters");
 const index = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const notes = yield notes_1.Note.find();
-    res.render("notes/index", { notes });
+    const sorters = (0, getSorters_1.getSorters)(notes);
+    res.render("notes/index", { notes, sorters });
 });
 exports.index = index;
 const newNoteForm = (req, res) => {
@@ -23,6 +25,7 @@ exports.newNoteForm = newNoteForm;
 const createNote = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     console.log(req.body.note);
     const newNote = new notes_1.Note(req.body.note);
+    console.log(newNote);
     yield newNote.save();
     res.redirect('/notes');
 });
@@ -55,4 +58,9 @@ const deleteNote = (req, res, next) => __awaiter(void 0, void 0, void 0, functio
     res.redirect('/notes');
 });
 exports.deleteNote = deleteNote;
+const getCategories = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    const { category } = req.params;
+    res.render('notes/categories');
+});
+exports.getCategories = getCategories;
 //# sourceMappingURL=notes.js.map

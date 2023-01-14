@@ -1,26 +1,33 @@
 <% layout('/layout/boilerplate') -%>
-    <div class="row row-cols-md-1 row-cols-2 text-center">
-        <div class="col-md-3 col-12 col-lg-2 bg-primary">
-            DING DONG
-        </div>
-        <div class="col-xxl-8 col-md-8 col-xl-10 col-10 offset-1 offset-md-0">
-            <h2>Notes</h2>
-            <div class="row row-cols-1 row-cols-xl-2 row-cols-xxl-3">
-                <% for(note of notes){ %>
-                <div class="col">
-                    <div class="card m-2">
-                        <div class="card-body">
-                            <h5 class="card-title fs-4"><%= note.title %></h5>
-                            <p class="card-text"><%= note.noteBody %></p>
-                            <a href="/notes/<%= note._id %>">show</a>
-                        </div>
-                        <div class="card-footer text-muted">
-                            <div class="ms-auto"><%= note.dateOfCreation.toLocaleDateString() %></div>
-                        </div>
+<div class="row row-cols-md-1 row-cols-2 text-center">
+    <div id="sidebar-nav" class="col-md-3 col-12 col-lg-2">
+        <% if(sorters.categories){ %>
+        <h3>Categories</h3>
+        <ul class="list-group list-group-flush">
+            <% for(let category of sorters.categories){ %>
+            <li class="list-group-item"><a href="/notes/categories/<%= category %> "><%= category %> </a></li>
+            <% } %>
+        </ul>
+        <% } %>
+    </div>
+    <div class="col-xxl-8 col-md-8 col-xl-10 col-10 offset-1 offset-md-0">
+        <h2>Notes</h2>
+        <div class="row row-cols-1 row-cols-xl-2 row-cols-xxl-3">
+            <% for(note of notes){ %>
+            <div class="col">
+                <div class="card m-2">
+                    <div class="card-body">
+                        <h5 class="card-title fs-4"><%= note.title %></h5>
+                        <p class="card-text"><%= note.noteBody %></p>
+                        <a href="/notes/<%= note._id %>">show</a>
+                    </div>
+                    <div class="card-footer text-muted">
+                        <div class="ms-auto"><%= note.dateOfCreation.toLocaleDateString() %></div>
                     </div>
                 </div>
-                <% } %>
             </div>
+            <% } %>
         </div>
     </div>
-<link rel="stylesheet" href="css/notes/index.css">
+</div>
+<link rel="stylesheet" href="css/notes/index.css" />

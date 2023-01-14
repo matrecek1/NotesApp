@@ -12,7 +12,7 @@ const noteSchema = new mongoose_1.Schema({
         required: true
     },
     category: {
-        String,
+        type: String,
     },
     tags: [String],
     dateOfCreation: {

@@ -1,11 +1,13 @@
 import { RequestHandler } from "express";
 import {Note} from '../models/notes'
+import { getSorters } from "../utils/getSorters";
 
 
 
 export const index: RequestHandler = async(req, res) => {
     const notes = await Note.find()
-    res.render("notes/index", {notes})
+    const sorters = getSorters(notes)
+    res.render("notes/index", {notes, sorters})
 }
 
 export const newNoteForm: RequestHandler = (req, res) => {
@@ -15,6 +17,7 @@ export const newNoteForm: RequestHandler = (req, res) => {
 export const createNote: RequestHandler = async(req, res, next) => {
         console.log(req.body.note);
         const newNote = new Note(req.body.note);
+        console.log(newNote);
         await newNote.save();
         res.redirect('/notes')
 }
@@ -45,5 +48,10 @@ export const deleteNote:RequestHandler<{id: string}> = async(req, res, next) =>{
     const {id} = req.params
     const note = await Note.findByIdAndDelete(id)
     res.redirect('/notes')
+}
+
+export const getCategories:RequestHandler<{category: string}> = async(req,res,next) =>{
+    const {category} = req.params
+    res.render('notes/categories')
 }
 
