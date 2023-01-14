@@ -1,0 +1,2 @@
+TODO do session and flash doesnt work now
+TODO do a left noteNav
