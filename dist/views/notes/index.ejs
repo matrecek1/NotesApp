@@ -1,6 +1,6 @@
 <% layout('/layout/boilerplate') -%>
 <div class="row row-cols-md-1 row-cols-2 text-center">
-    <%- include('../partials/sideNav')  %> 
+    <%- include('../partials/sideNav') %>
     <div class="col-xxl-8 col-md-8 col-xl-10 col-10 offset-1 offset-md-0">
         <h2>Notes</h2>
         <div class="row row-cols-1 row-cols-xl-2 row-cols-xxl-3">
@@ -19,6 +19,17 @@
             </div>
             <% } %>
         </div>
+        <h2><%= url %> </h2>
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+                <li class="page-item"><a class="page-link" href="">Previous</a></li>
+                <li class="page-item"><a class="page-link" href="/notes?p=0">1</a></li>
+                <li class="page-item"><a class="page-link" href="/notes?p=1">2</a></li>
+                <li class="page-item"><a class="page-link" href="/notes?p=2">3</a></li>
+                <li class="page-item"><a class="page-link" href="#">Next</a></li>
+            </ul>
+        </nav>
     </div>
 </div>
 <link rel="stylesheet" href="css/notes/index.css" />
+

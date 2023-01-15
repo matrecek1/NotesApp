@@ -5,7 +5,12 @@ import { getSorters, getNotesByTags, getNotesByCategory } from "../utils/getSort
 
 
 export const index: RequestHandler = async (req, res) => {
-    const notes = await Note.find()
+    const {p} = req.query
+    let page:number
+    if(typeof p === 'string') page = parseInt(p)
+    else page = 0
+    const notesPerPage = 18
+    const notes = await Note.find().skip(page * notesPerPage).limit(notesPerPage)
     const sorters = getSorters(notes)
     res.render("notes/index", { notes, sorters })
 }

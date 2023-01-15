@@ -35,6 +35,7 @@ app.use(methodOverride('_method'))
 app.use(express.static(path.join(__dirname, 'public')))
 
 app.use((req, res, next) => {
+    res.locals.url = req.originalUrl;
     res.locals.success = req.flash("success");
     res.locals.error = req.flash("error");
     next();
