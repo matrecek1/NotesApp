@@ -1,0 +1,23 @@
+<div id="sidebar-nav" class="col-md-3 col-12 col-lg-2">
+    <% if(sorters.categories){ %>
+    <div class="dropdown mb-3" data-bs-theme="light">
+        <a class="navbar-toggler dropdown-toggle fs-4" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Categories
+        </a>
+        <ul class="dropdown-menu">
+            <% for(let category of sorters.categories){ %>
+            <li><a class="dropdown-item" href="/notes/categories/<%= category %> "><%= category %> </a></li>
+            <% } %>
+        </ul>
+    </div>
+    <% } %> <% if(sorters.tags){ %>
+    <div class="dropdown">
+        <a class="navbar-toggler dropdown-toggle fs-4" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"> Tags </a>
+        <ul class="dropdown-menu">
+            <% for(let tag of sorters.tags){ %>
+            <li><a class="dropdown-item" href="/notes/tags/<%= tag %> "><%= tag %> </a></li>
+            <% } %>
+        </ul>
+        <% } %>
+    </div>
+</div>

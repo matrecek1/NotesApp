@@ -13,10 +13,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
+const express_session_1 = __importDefault(require("express-session"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const ejs_mate_1 = __importDefault(require("ejs-mate"));
 const path_1 = __importDefault(require("path"));
 const method_override_1 = __importDefault(require("method-override"));
+const connect_flash_1 = __importDefault(require("connect-flash"));
 const notes_1 = __importDefault(require("./routes/notes"));
 const app = (0, express_1.default)();
 const port = '3000';
@@ -30,11 +32,25 @@ function main() {
 app.engine("ejs", ejs_mate_1.default);
 app.set("views", path_1.default.join(__dirname, 'views'));
 app.set("view engine", 'ejs');
+app.use((0, express_session_1.default)({
+    secret: 'secret',
+    cookie: {
+        maxAge: 30000,
+        secure: false
+    },
+    saveUninitialized: true,
+}));
+app.use((0, connect_flash_1.default)());
 app.use(express_1.default.urlencoded());
 app.use(express_1.default.json());
 app.use((0, method_override_1.default)('_method'));
-app.use("/notes", notes_1.default);
 app.use(express_1.default.static(path_1.default.join(__dirname, 'public')));
+app.use((req, res, next) => {
+    res.locals.success = req.flash("success");
+    res.locals.error = req.flash("error");
+    next();
+});
+app.use("/notes", notes_1.default);
 app.use((err, req, res, next) => {
     res.status(500).render("error", { err });
 });

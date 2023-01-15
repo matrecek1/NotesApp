@@ -75,4 +75,4 @@ const getTags = (req, res, next) => __awaiter(void 0, void 0, void 0, function* 
     res.render('notes/tags', { sorters, notes: notesByTag });
 });
 exports.getTags = getTags;
-//# sourceMappingURL=notes.js.map
+//# sourceMappingURL=note.js.map

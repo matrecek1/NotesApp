@@ -1,15 +1,6 @@
 <% layout('/layout/boilerplate') -%>
 <div class="row row-cols-md-1 row-cols-2 text-center">
-    <div id="sidebar-nav" class="col-md-3 col-12 col-lg-2">
-        <% if(sorters.categories){ %>
-        <h3>Categories</h3>
-        <ul class="list-group list-group-flush">
-            <% for(let category of sorters.categories){ %>
-            <li class="list-group-item"><a href="/notes/categories/<%= category %> "><%= category %> </a></li>
-            <% } %>
-        </ul>
-        <% } %>
-    </div>
+    <%- include('../partials/sideNav')  %> 
     <div class="col-xxl-8 col-md-8 col-xl-10 col-10 offset-1 offset-md-0">
         <h2>Notes</h2>
         <div class="row row-cols-1 row-cols-xl-2 row-cols-xxl-3">

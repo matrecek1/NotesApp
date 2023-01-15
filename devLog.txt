@@ -1,4 +1,3 @@
-TODO do session and flash doesnt work now
-TODO do a left noteNav
 QUESTION save categories to db with their own id?
-Categories and tags = Sorters?
+TODO Improve layout
+TODO PAGINATION

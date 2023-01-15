@@ -1,8 +1,10 @@
 import express, { Request, Response, NextFunction } from 'express';
+import session from 'express-session';
 import mongoose from 'mongoose';
 import ejsMate from 'ejs-mate';
 import path from 'path';
 import methodOverride from 'method-override';
+import flash from 'connect-flash';
 
 import notesRoutes from './routes/notes'
 
@@ -18,11 +20,27 @@ app.engine("ejs", ejsMate)
 app.set("views", path.join(__dirname, 'views'))
 app.set("view engine", 'ejs')
 
+app.use(session({
+    secret: 'secret',
+    cookie: {
+        maxAge: 30000,
+        secure: false
+    },
+    saveUninitialized: true,
+}))
+app.use(flash())
 app.use(express.urlencoded())
 app.use(express.json())
 app.use(methodOverride('_method'))
-app.use("/notes", notesRoutes)
 app.use(express.static(path.join(__dirname, 'public')))
+
+app.use((req, res, next) => {
+    res.locals.success = req.flash("success");
+    res.locals.error = req.flash("error");
+    next();
+});
+
+app.use("/notes", notesRoutes)
 
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
     res.status(500).render("error", { err })
