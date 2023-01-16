@@ -1,5 +1,5 @@
 import { INote } from "../models/notes";
-interface Sorter {
+export interface Sorter {
     categories:string[];
     tags:string[];
 }

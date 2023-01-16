@@ -1,1 +1,2 @@
+
 declare module "ejs-mate"
