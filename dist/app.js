@@ -44,7 +44,7 @@ app.use((0, connect_flash_1.default)());
 app.use(express_1.default.urlencoded());
 app.use(express_1.default.json());
 app.use((0, method_override_1.default)('_method'));
-app.use(express_1.default.static(path_1.default.join(__dirname, 'public')));
+app.use(express_1.default.static(path_1.default.join(__dirname, './public')));
 app.use((req, res, next) => {
     res.locals.url = req.originalUrl;
     res.locals.success = req.flash("success");

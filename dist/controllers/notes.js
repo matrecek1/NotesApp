@@ -13,16 +13,22 @@ exports.getTags = exports.getCategories = exports.deleteNote = exports.updateNot
 const notes_1 = require("../models/notes");
 const getSorters_1 = require("../utils/getSorters");
 const index = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const notesPerPage = 18;
     const { p } = req.query;
     let page;
     if (typeof p === 'string')
         page = parseInt(p);
     else
         page = 0;
-    const notesPerPage = 18;
+    const noteCount = yield notes_1.Note.estimatedDocumentCount();
+    const pageCount = Math.ceil(noteCount / notesPerPage);
+    const pages = {
+        currentPage: page,
+        numOfPages: pageCount,
+    };
     const notes = yield notes_1.Note.find().skip(page * notesPerPage).limit(notesPerPage);
     const sorters = (0, getSorters_1.getSorters)(notes);
-    res.render("notes/index", { notes, sorters });
+    res.render("notes/index", { notes, sorters, pages });
 });
 exports.index = index;
 const newNoteForm = (req, res) => {

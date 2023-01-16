@@ -5,6 +5,7 @@ import ejsMate from 'ejs-mate';
 import path from 'path';
 import methodOverride from 'method-override';
 import flash from 'connect-flash';
+import {getPageNumber} from './utils/getPageNumber'
 
 import notesRoutes from './routes/notes'
 
@@ -32,7 +33,7 @@ app.use(flash())
 app.use(express.urlencoded())
 app.use(express.json())
 app.use(methodOverride('_method'))
-app.use(express.static(path.join(__dirname, 'public')))
+app.use(express.static(path.join(__dirname, './public')))
 
 app.use((req, res, next) => {
     res.locals.url = req.originalUrl;

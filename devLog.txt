@@ -1,3 +1,4 @@
 QUESTION save categories to db with their own id?
+QUESTION Maybe redo categories to work on a basis of querues not their own routes?
 TODO Improve layout
-TODO PAGINATION = move to a middleware? implement on cats and tags
+TODO PAGINATION = move to a middleware? implement on cats and tags, redo pages as an object with numOfPages

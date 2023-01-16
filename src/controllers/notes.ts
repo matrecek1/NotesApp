@@ -1,19 +1,29 @@
 import { RequestHandler } from "express";
 import { Note } from '../models/notes'
 import { getSorters, getNotesByTags, getNotesByCategory } from "../utils/getSorters";
+interface Pages{
+    currentPage: number;
+    numOfPages: number;
+}
 
 
 
 export const index: RequestHandler = async (req, res) => {
-    const {p} = req.query
-    let page:number
-    if(typeof p === 'string') page = parseInt(p)
-    else page = 0
     const notesPerPage = 18
+    const {p} = req.query
+    let page: number
+    if (typeof p === 'string') page = parseInt(p)
+    else page = 0
+    const noteCount = await Note.estimatedDocumentCount()
+    const pageCount = Math.ceil(noteCount / notesPerPage)
+    const pages: Pages = {
+        currentPage: page,
+        numOfPages: pageCount,
+    }
     const notes = await Note.find().skip(page * notesPerPage).limit(notesPerPage)
     const sorters = getSorters(notes)
-    res.render("notes/index", { notes, sorters })
-}
+    res.render("notes/index", { notes, sorters, pages})
+}  
 
 export const newNoteForm: RequestHandler = (req, res) => {
     res.render('notes/new')

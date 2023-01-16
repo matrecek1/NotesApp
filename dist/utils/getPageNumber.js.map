@@ -1,0 +1,1 @@
+{"version":3,"file":"getPageNumber.js","sourceRoot":"","sources":["../../src/utils/getPageNumber.ts"],"names":[],"mappings":";;;AAAO,MAAM,aAAa,GAAG,CAAC,GAAW,EAAS,EAAE;IAChD,GAAG,CAAC,KAAK,CAAC,EAAE,CAAC,CAAA;IACb,IAAI,IAAI,GAAW,QAAQ,CAAC,GAAG,CAAC,GAAG,CAAC,MAAM,GAAG,CAAC,CAAC,CAAC,CAAA;IAChD,OAAO,IAAI,CAAA;AACf,CAAC,CAAA;AAJY,QAAA,aAAa,iBAIzB"}
