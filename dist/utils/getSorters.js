@@ -8,10 +8,16 @@ const getSorters = (notes) => {
     };
     for (let note of notes) {
         if (note.category) {
-            sorters.categories.push(note.category);
+            if (!sorters.categories.includes(note.category)) {
+                sorters.categories.push(note.category);
+            }
         }
         if (note.tags) {
-            sorters.tags.push(...note.tags);
+            for (let tag of note.tags) {
+                if (!sorters.tags.includes(tag)) {
+                    sorters.tags.push(tag);
+                }
+            }
         }
     }
     return sorters;

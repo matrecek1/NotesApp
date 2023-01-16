@@ -5,7 +5,6 @@ import ejsMate from 'ejs-mate';
 import path from 'path';
 import methodOverride from 'method-override';
 import flash from 'connect-flash';
-import {getPageNumber} from './utils/getPageNumber'
 
 import notesRoutes from './routes/notes'
 

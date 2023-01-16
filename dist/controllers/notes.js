@@ -63,18 +63,20 @@ const deleteNote = (req, res, next) => __awaiter(void 0, void 0, void 0, functio
 exports.deleteNote = deleteNote;
 const getCategories = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const { category } = req.params;
+    res.locals.activeCategory = category;
     const notes = yield notes_1.Note.find();
     const sorters = (0, getSorters_1.getSorters)(notes);
     const notesByCat = (0, getSorters_1.getNotesByCategory)(notes, category);
-    res.render('notes/categories', { sorters, notes: notesByCat });
+    res.render('notes/index', { sorters, notes: notesByCat });
 });
 exports.getCategories = getCategories;
 const getTags = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const { tag } = req.params;
+    res.locals.activeTag = tag;
     const notes = yield notes_1.Note.find();
     const sorters = (0, getSorters_1.getSorters)(notes);
     const notesByTag = (0, getSorters_1.getNotesByTags)(notes, tag);
-    res.render('notes/tags', { sorters, notes: notesByTag });
+    res.render('notes/index', { sorters, notes: notesByTag });
 });
 exports.getTags = getTags;
 //# sourceMappingURL=notes.js.map

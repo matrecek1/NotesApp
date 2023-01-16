@@ -1,4 +1,4 @@
-import { RequestHandler } from "express";
+import { RequestHandler, Request, Response } from "express";
 import { Note } from '../models/notes'
 import { getSorters, getNotesByTags, getNotesByCategory, Sorter } from "../utils/getSorters";
 import { Pages } from "../middleware/notes/pages";
@@ -6,7 +6,7 @@ import { Pages } from "../middleware/notes/pages";
 
 
 
-export const index: RequestHandler = async (req, res) => {
+export const index = async (req:Request, res:Response) => {
     const pages:Pages = res.locals.pages
     const skip = pages.currentPage * pages.notesPerPage
     const notes = await Note.find().skip(skip).limit(pages.notesPerPage)
@@ -57,16 +57,18 @@ export const deleteNote: RequestHandler<{ id: string }> = async (req, res, next)
 
 export const getCategories: RequestHandler<{ category: string }> = async (req, res, next) => {
     const { category } = req.params
+    res.locals.activeCategory = category
     const notes = await Note.find()
     const sorters = getSorters(notes)
     const notesByCat = getNotesByCategory(notes, category)
-    res.render('notes/categories', { sorters, notes: notesByCat })
+    res.render('notes/index', { sorters, notes: notesByCat })
 }
 
 export const getTags: RequestHandler<{ tag: string }> = async (req, res, next) => {
     const { tag } = req.params
+    res.locals.activeTag = tag
     const notes = await Note.find()
     const sorters = getSorters(notes)
     const notesByTag = getNotesByTags(notes, tag)
-    res.render('notes/tags', { sorters, notes: notesByTag })
+    res.render('notes/index', { sorters, notes: notesByTag })
 }

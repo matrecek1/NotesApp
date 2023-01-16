@@ -19,9 +19,9 @@ router.get('/:id/edit', catchAsync(editNoteForm))
 
 router.delete('/:id', catchAsync(deleteNote))
 
-router.get('/categories/:category', catchAsync(getCategories))
+router.get('/categories/:category', getPageData,catchAsync(getCategories))
 
-router.get('/tags/:tag', catchAsync(getTags))
+router.get('/tags/:tag', getPageData,catchAsync(getTags))
 
 
 export default router

@@ -9,7 +9,6 @@ export interface Pages {
 export const getPageData:RequestHandler = async(req, res, next) => {
     const notesPerPage = 18
     const { p } = req.query
-    console.log(p);
     let page: number
     if (typeof p === 'string') page = parseInt(p)
     else page = 0

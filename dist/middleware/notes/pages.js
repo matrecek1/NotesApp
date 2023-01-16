@@ -14,7 +14,6 @@ const notes_1 = require("../../models/notes");
 const getPageData = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const notesPerPage = 18;
     const { p } = req.query;
-    console.log(p);
     let page;
     if (typeof p === 'string')
         page = parseInt(p);
