@@ -2,18 +2,18 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getNotesByTags = exports.getNotesByCategory = exports.getSorters = void 0;
 const getSorters = (notes) => {
-    let sorters = {
+    const sorters = {
         categories: [],
         tags: []
     };
-    for (let note of notes) {
+    for (const note of notes) {
         if (note.category) {
             if (!sorters.categories.includes(note.category)) {
                 sorters.categories.push(note.category);
             }
         }
         if (note.tags) {
-            for (let tag of note.tags) {
+            for (const tag of note.tags) {
                 if (!sorters.tags.includes(tag)) {
                     sorters.tags.push(tag);
                 }

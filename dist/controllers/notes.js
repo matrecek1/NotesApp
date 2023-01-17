@@ -13,7 +13,10 @@ exports.getTags = exports.getCategories = exports.deleteNote = exports.updateNot
 const notes_1 = require("../models/notes");
 const getSorters_1 = require("../utils/getSorters");
 const index = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const pages = res.locals.pages;
+    if (!req.pages)
+        throw new Error("pages undefined");
+    const pages = req.pages;
+    res.locals.pages = req.pages;
     const skip = pages.currentPage * pages.notesPerPage;
     const notes = yield notes_1.Note.find().skip(skip).limit(pages.notesPerPage);
     const sorters = (0, getSorters_1.getSorters)(notes);
@@ -25,7 +28,6 @@ const newNoteForm = (req, res) => {
 };
 exports.newNoteForm = newNoteForm;
 const createNote = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log(req.body.note);
     const newNote = new notes_1.Note(req.body.note);
     console.log(newNote);
     yield newNote.save();
@@ -61,8 +63,9 @@ const deleteNote = (req, res, next) => __awaiter(void 0, void 0, void 0, functio
     res.redirect('/notes');
 });
 exports.deleteNote = deleteNote;
-const getCategories = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+const getCategories = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { category } = req.params;
+    res.locals.pages = req.pages;
     res.locals.activeCategory = category;
     const notes = yield notes_1.Note.find();
     const sorters = (0, getSorters_1.getSorters)(notes);
@@ -70,8 +73,9 @@ const getCategories = (req, res, next) => __awaiter(void 0, void 0, void 0, func
     res.render('notes/index', { sorters, notes: notesByCat });
 });
 exports.getCategories = getCategories;
-const getTags = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+const getTags = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { tag } = req.params;
+    res.locals.pages = req.pages;
     res.locals.activeTag = tag;
     const notes = yield notes_1.Note.find();
     const sorters = (0, getSorters_1.getSorters)(notes);

@@ -1,12 +1,15 @@
-import { RequestHandler } from "express";
+import { RequestHandler, Request, Response, NextFunction } from "express";
 import {Note} from '../../models/notes'
+
 export interface Pages {
     currentPage: number;
     numOfPages: number;
     notesPerPage: number;
 }
 
-export const getPageData:RequestHandler = async(req, res, next) => {
+
+
+export const getPageData = async(req:Request, res:Response, next: NextFunction) => {
     const notesPerPage = 18
     const { p } = req.query
     let page: number
@@ -19,6 +22,6 @@ export const getPageData:RequestHandler = async(req, res, next) => {
         numOfPages: pageCount,
         notesPerPage: notesPerPage
     }
-    res.locals.pages = pages
+    req.pages = pages
     next()
 }

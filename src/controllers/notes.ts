@@ -1,13 +1,15 @@
-import { RequestHandler, Request, Response } from "express";
+import { RequestHandler, Request, Response, NextFunction } from "express";
 import { Note } from '../models/notes'
 import { getSorters, getNotesByTags, getNotesByCategory, Sorter } from "../utils/getSorters";
-import { Pages } from "../middleware/notes/pages";
+
 
 
 
 
 export const index = async (req:Request, res:Response) => {
-    const pages:Pages = res.locals.pages
+    if(!req.pages) throw new Error("pages undefined")
+    const pages = req.pages
+    res.locals.pages = req.pages
     const skip = pages.currentPage * pages.notesPerPage
     const notes = await Note.find().skip(skip).limit(pages.notesPerPage)
     const sorters:Sorter = getSorters(notes)
@@ -19,7 +21,6 @@ export const newNoteForm: RequestHandler = (req, res) => {
 }
 
 export const createNote: RequestHandler = async (req, res, next) => {
-    console.log(req.body.note);
     const newNote = new Note(req.body.note);
     console.log(newNote);
     await newNote.save();
@@ -55,8 +56,9 @@ export const deleteNote: RequestHandler<{ id: string }> = async (req, res, next)
     res.redirect('/notes')
 }
 
-export const getCategories: RequestHandler<{ category: string }> = async (req, res, next) => {
+export const getCategories = async (req: Request, res:Response) => {
     const { category } = req.params
+    res.locals.pages = req.pages
     res.locals.activeCategory = category
     const notes = await Note.find()
     const sorters = getSorters(notes)
@@ -64,8 +66,9 @@ export const getCategories: RequestHandler<{ category: string }> = async (req, r
     res.render('notes/index', { sorters, notes: notesByCat })
 }
 
-export const getTags: RequestHandler<{ tag: string }> = async (req, res, next) => {
+export const getTags = async (req:Request, res:Response) => {
     const { tag } = req.params
+    res.locals.pages = req.pages
     res.locals.activeTag = tag
     const notes = await Note.find()
     const sorters = getSorters(notes)

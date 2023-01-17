@@ -4,18 +4,18 @@ export interface Sorter {
     tags:string[];
 }
 export const getSorters = (notes: INote[]): Sorter => {
-    let sorters:Sorter = {
+    const sorters:Sorter = {
         categories:[],
         tags:[]    
     }
-    for(let note of notes) {
+    for(const note of notes) {
         if(note.category){
             if(!sorters.categories.includes(note.category)){
                 sorters.categories.push(note.category)
             }
         }
         if(note.tags){
-            for(let tag of note.tags){
+            for(const tag of note.tags){
                 if (!sorters.tags.includes(tag)){
                     sorters.tags.push(tag)
                 }

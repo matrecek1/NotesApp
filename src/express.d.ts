@@ -1,6 +1,13 @@
 import { Pages } from "./middleware/notes/pages"
-declare namespace Express {
-    export interface Request {
-        pages?: Pages
+
+
+// to make the file a module and avoid the TypeScript error
+export { }
+
+declare global {
+    namespace Express {
+        export interface Request {
+            pages?: Pages;
+        }
     }
 }

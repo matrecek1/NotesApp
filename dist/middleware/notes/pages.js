@@ -26,7 +26,7 @@ const getPageData = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
         numOfPages: pageCount,
         notesPerPage: notesPerPage
     };
-    res.locals.pages = pages;
+    req.pages = pages;
     next();
 });
 exports.getPageData = getPageData;
