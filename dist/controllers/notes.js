@@ -30,7 +30,7 @@ const newNoteForm = (req, res) => {
 exports.newNoteForm = newNoteForm;
 const createNote = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const newNote = new notes_1.Note(req.body.note);
-    console.log(newNote);
+    // await User.updateOne({ name:"Hey" },{ $push: { notes: newNote } });
     yield newNote.save();
     req.flash("success", "note created");
     res.redirect('/notes');

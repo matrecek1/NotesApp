@@ -8,8 +8,12 @@ import ejsMate from 'ejs-mate';
 import path from 'path';
 import methodOverride from 'method-override';
 import flash from 'connect-flash';
+import passport from "passport"
+import LocalStrategy from "passport-local"
+import { User } from './models/users';
 
 import notesRoutes from './routes/notes'
+import userRoutes from './routes/user'
 
 const app = express();
 const port = process.env.PORT || "3000";
@@ -26,7 +30,7 @@ app.set("view engine", 'ejs')
 app.use(session({
     secret: secret,
     cookie: {
-        maxAge: 1000*60*60*24*7,
+        maxAge: 1000 * 60 * 60 * 24 * 7,
     },
     saveUninitialized: true,
 }))
@@ -35,8 +39,14 @@ app.use(express.urlencoded())
 app.use(express.json())
 app.use(methodOverride('_method'))
 app.use(express.static(path.join(__dirname, './public')))
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
 app.use((req, res, next) => {
+    res.locals.currentUser = req.user
     res.locals.url = req.originalUrl;
     res.locals.success = req.flash("success");
     res.locals.error = req.flash("error");
@@ -44,6 +54,7 @@ app.use((req, res, next) => {
 });
 
 app.use("/notes", notesRoutes)
+app.use('/user', userRoutes)
 
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
     res.status(500).render("error", { err })

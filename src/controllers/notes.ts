@@ -1,6 +1,6 @@
 import { RequestHandler, Request, Response, NextFunction } from "express";
-import { request } from "http";
 import { Pages } from "../middleware/notes/pages";
+import { User} from "../models/users";
 import { Note } from '../models/notes'
 import { getSorters, getNotesByTags, getNotesByCategory, Sorter } from "../utils/getSorters";
 
@@ -26,7 +26,7 @@ export const newNoteForm: RequestHandler = (req, res) => {
 
 export const createNote: RequestHandler = async (req, res, next) => {
     const newNote = new Note(req.body.note);
-    console.log(newNote);
+    // await User.updateOne({ name:"Hey" },{ $push: { notes: newNote } });
     await newNote.save();
     req.flash("success", "note created")
     res.redirect('/notes')
