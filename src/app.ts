@@ -1,3 +1,6 @@
+if (process.env.NODE_ENV !== "production") {
+    require("dotenv").config();
+}
 import express, { Request, Response, NextFunction } from 'express';
 import session from 'express-session';
 import mongoose from 'mongoose';
@@ -9,22 +12,21 @@ import flash from 'connect-flash';
 import notesRoutes from './routes/notes'
 
 const app = express();
-const port = '3000'
-
+const port = process.env.PORT || "3000";
+const dbUrl = process.env.DB_URL || "mongodb://127.0.0.1:27017/notesapp";
+const secret = process.env.SECRET || "thisisasecret";
 main().catch(err => console.log(err));
 async function main() {
-    await mongoose.connect('mongodb://127.0.0.1:27017/notesapp');
+    await mongoose.connect(dbUrl);
     console.log("Connected to db");
 }
 app.engine("ejs", ejsMate)
 app.set("views", path.join(__dirname, 'views'))
 app.set("view engine", 'ejs')
-
 app.use(session({
-    secret: 'secret',
+    secret: secret,
     cookie: {
-        maxAge: 30000,
-        secure: false
+        maxAge: 1000*60*60*24*7,
     },
     saveUninitialized: true,
 }))
