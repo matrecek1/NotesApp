@@ -1,4 +1,5 @@
 QUESTION save categories to db with their own id?
 QUESTION Maybe redo categories to work on a basis of querues not their own routes?
 TODO Improve layout
+TODO! Tags and cats pagination sends request to index
 

@@ -17,10 +17,10 @@ const index = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const noteCount = yield notes_1.Note.estimatedDocumentCount();
     const pageCount = Math.ceil(noteCount / pages.notesPerPage);
     pages.numOfPages = pageCount;
-    res.locals.pages = req.pages;
     const skip = pages.currentPage * pages.notesPerPage;
     const notes = yield notes_1.Note.find().skip(skip).limit(pages.notesPerPage);
     const sorters = (0, getSorters_1.getSorters)(notes);
+    res.locals.pages = req.pages;
     res.render("notes/index", { notes, sorters });
 });
 exports.index = index;
@@ -66,22 +66,32 @@ const deleteNote = (req, res, next) => __awaiter(void 0, void 0, void 0, functio
 exports.deleteNote = deleteNote;
 const getCategories = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { category } = req.params;
-    res.locals.pages = req.pages;
-    res.locals.activeCategory = category;
     const notes = yield notes_1.Note.find();
     const sorters = (0, getSorters_1.getSorters)(notes);
     const notesByCat = (0, getSorters_1.getNotesByCategory)(notes, category);
-    res.render('notes/index', { sorters, notes: notesByCat });
+    const pages = {
+        currentPage: req.pages.currentPage,
+        notesPerPage: req.pages.notesPerPage,
+        numOfPages: notesByCat.length
+    };
+    res.locals.activeCategory = category;
+    res.locals.pages = pages;
+    res.render('notes/category', { sorters, notes: notesByCat });
 });
 exports.getCategories = getCategories;
 const getTags = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { tag } = req.params;
-    res.locals.pages = req.pages;
-    res.locals.activeTag = tag;
     const notes = yield notes_1.Note.find();
     const sorters = (0, getSorters_1.getSorters)(notes);
     const notesByTag = (0, getSorters_1.getNotesByTags)(notes, tag);
-    res.render('notes/index', { sorters, notes: notesByTag });
+    const pages = {
+        currentPage: req.pages.currentPage,
+        notesPerPage: req.pages.notesPerPage,
+        numOfPages: notesByTag.length
+    };
+    res.locals.activeTag = tag;
+    res.locals.pages = pages;
+    res.render('notes/tags', { sorters, notes: notesByTag });
 });
 exports.getTags = getTags;
 //# sourceMappingURL=notes.js.map

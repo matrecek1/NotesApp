@@ -1,5 +1,6 @@
 import { RequestHandler, Request, Response, NextFunction } from "express";
 import { request } from "http";
+import { Pages } from "../middleware/notes/pages";
 import { Note } from '../models/notes'
 import { getSorters, getNotesByTags, getNotesByCategory, Sorter } from "../utils/getSorters";
 
@@ -12,10 +13,10 @@ export const index = async (req:Request, res:Response) => {
     const noteCount = await Note.estimatedDocumentCount()
     const pageCount = Math.ceil(noteCount / pages.notesPerPage)
     pages.numOfPages = pageCount
-    res.locals.pages = req.pages
     const skip = pages.currentPage * pages.notesPerPage
     const notes = await Note.find().skip(skip).limit(pages.notesPerPage)
     const sorters:Sorter = getSorters(notes)
+    res.locals.pages = req.pages
     res.render("notes/index", { notes, sorters})
 }  
 
@@ -61,20 +62,30 @@ export const deleteNote: RequestHandler<{ id: string }> = async (req, res, next)
 
 export const getCategories = async (req: Request, res:Response) => {
     const { category } = req.params
-    res.locals.pages = req.pages
-    res.locals.activeCategory = category
     const notes = await Note.find()
     const sorters = getSorters(notes)
     const notesByCat = getNotesByCategory(notes, category)
-    res.render('notes/index', { sorters, notes: notesByCat })
+    const pages:Pages = {
+        currentPage: req.pages!.currentPage,
+        notesPerPage: req.pages!.notesPerPage,
+        numOfPages: notesByCat.length
+    }
+    res.locals.activeCategory = category
+    res.locals.pages = pages
+    res.render('notes/category', { sorters, notes: notesByCat })
 }
 
 export const getTags = async (req:Request, res:Response) => {
     const { tag } = req.params
-    res.locals.pages = req.pages
-    res.locals.activeTag = tag
     const notes = await Note.find()
     const sorters = getSorters(notes)
     const notesByTag = getNotesByTags(notes, tag)
-    res.render('notes/index', { sorters, notes: notesByTag })
+    const pages: Pages = {
+        currentPage: req.pages!.currentPage,
+        notesPerPage: req.pages!.notesPerPage,
+        numOfPages: notesByTag.length
+    }
+    res.locals.activeTag = tag
+    res.locals.pages = pages
+    res.render('notes/tags', { sorters, notes: notesByTag })
 }

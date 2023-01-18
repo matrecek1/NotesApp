@@ -1,0 +1,17 @@
+<% layout('/layout/boilerplate') -%>
+<div class="row row-cols-md-1 row-cols-2 text-center">
+    <%- include('../partials/sideNav') %>
+    <div class="col-xxl-8 col-md-8 col-xl-10 col-10 offset-1 offset-md-0">
+        <%- include('../partials/notesGrid') %> 
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+                <li class="page-item"><a class="page-link" id="prev-page" href="/notes/categories/<%= activeCategory %>?p=<%= pages.currentPage > 0?pages.currentPage-1:pages.currentPage %> ">Previous</a></li>
+                <% for(let i=0;i < pages.numOfPages; i++) {%>
+                    <% const active = pages.currentPage === i? "active" : "" %>
+                     <li class="page-item <%= active %>"><a class="page-link" href="/notes/categories/<%= activeCategory %>?p=<%= i %> "><%= i + 1 %> </a></li>
+                <% } %>  
+                <li class="page-item"><a class="page-link" id="next-page" href="/notes/categories/<%= activeCategory %>?p=<%=pages.currentPage < pages.numOfPages-1? pages.currentPage+1: pages.currentPage%>">Next</a></li>
+            </ul>
+        </nav>
+    </div>
+</div>
