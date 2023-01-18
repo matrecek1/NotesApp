@@ -8,6 +8,7 @@ export const getSorters = (notes: INote[]): Sorter => {
         categories:[],
         tags:[]    
     }
+    
     for(const note of notes) {
         if(note.category){
             if(!sorters.categories.includes(note.category)){

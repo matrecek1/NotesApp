@@ -21,6 +21,7 @@
     "express-ejs-layouts": "^2.5.1",
     "express-session": "^1.17.3",
     "method-override": "^3.0.0",
+    "mongodb-memory-server": "^8.11.1",
     "mongoose": "^6.8.3"
   },
   "devDependencies": {

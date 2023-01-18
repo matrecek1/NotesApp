@@ -9,9 +9,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getPageData = void 0;
-const notes_1 = require("../../models/notes");
-const getPageData = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+exports.getPaginationData = void 0;
+const getPaginationData = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const notesPerPage = 18;
     const { p } = req.query;
     let page;
@@ -19,15 +18,12 @@ const getPageData = (req, res, next) => __awaiter(void 0, void 0, void 0, functi
         page = parseInt(p);
     else
         page = 0;
-    const noteCount = yield notes_1.Note.estimatedDocumentCount();
-    const pageCount = Math.ceil(noteCount / notesPerPage);
     const pages = {
         currentPage: page,
-        numOfPages: pageCount,
         notesPerPage: notesPerPage
     };
     req.pages = pages;
     next();
 });
-exports.getPageData = getPageData;
+exports.getPaginationData = getPaginationData;
 //# sourceMappingURL=pages.js.map

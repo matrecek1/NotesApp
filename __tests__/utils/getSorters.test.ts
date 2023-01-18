@@ -1,4 +1,4 @@
-import { getSorters} from '../../src/utils/getSorters';
+import { getSorters } from '../../src/utils/getSorters';
 import { INote } from '../../src/models/notes';
 const note1: INote = {
     title: "Note",

@@ -1,4 +1,5 @@
 import { RequestHandler, Request, Response, NextFunction } from "express";
+import { request } from "http";
 import { Note } from '../models/notes'
 import { getSorters, getNotesByTags, getNotesByCategory, Sorter } from "../utils/getSorters";
 
@@ -7,8 +8,10 @@ import { getSorters, getNotesByTags, getNotesByCategory, Sorter } from "../utils
 
 
 export const index = async (req:Request, res:Response) => {
-    if(!req.pages) throw new Error("pages undefined")
-    const pages = req.pages
+    const pages = req.pages!
+    const noteCount = await Note.estimatedDocumentCount()
+    const pageCount = Math.ceil(noteCount / pages.notesPerPage)
+    pages.numOfPages = pageCount
     res.locals.pages = req.pages
     const skip = pages.currentPage * pages.notesPerPage
     const notes = await Note.find().skip(skip).limit(pages.notesPerPage)

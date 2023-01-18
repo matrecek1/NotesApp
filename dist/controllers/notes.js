@@ -13,9 +13,10 @@ exports.getTags = exports.getCategories = exports.deleteNote = exports.updateNot
 const notes_1 = require("../models/notes");
 const getSorters_1 = require("../utils/getSorters");
 const index = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    if (!req.pages)
-        throw new Error("pages undefined");
     const pages = req.pages;
+    const noteCount = yield notes_1.Note.estimatedDocumentCount();
+    const pageCount = Math.ceil(noteCount / pages.notesPerPage);
+    pages.numOfPages = pageCount;
     res.locals.pages = req.pages;
     const skip = pages.currentPage * pages.notesPerPage;
     const notes = yield notes_1.Note.find().skip(skip).limit(pages.notesPerPage);
