@@ -1,7 +1,7 @@
 <h2>Notes</h2>
         <div class="row row-cols-1 row-cols-xl-2 row-cols-xxl-3">
             <% for(note of notes){ %>
-                <% const {title, noteBody, _id, dateOfCreation} = note %> 
+                <% const {title, noteBody, _id, dateOfCreation, category} = note %> 
             <div class="col">
                 <div class="card m-2">
                     <div class="card-body">
@@ -9,8 +9,13 @@
                         <p class="card-text"><%= noteBody %></p>
                         <a href="/notes/<%= _id %>">show</a>
                     </div>
-                    <div class="card-footer text-muted">
-                        <div class="ms-auto"><%= dateOfCreation.toLocaleDateString() %></div>
+                    <div class="card-footer text-muted row">
+                         <div class="col">
+                            <% if(category){ %> 
+                                <a href="/notes/category/<%= category %>">/<%= category%></a>
+                            <% }%> 
+                        </div>
+                        <div class="ms-auto col"><%= dateOfCreation.toLocaleDateString() %></div>
                     </div>
                 </div>
             </div>
