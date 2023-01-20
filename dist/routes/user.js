@@ -9,5 +9,6 @@ router.get('/register', users_1.registerForm);
 router.post('/register', (0, catchAync_1.catchAsync)(users_1.newUser));
 router.get('/login', users_1.loginForm);
 router.post("/login", passport.authenticate("local", { failureFlash: true, failureRedirect: "/user/login" }), (0, catchAync_1.catchAsync)(users_1.loginUser));
+router.get('/logout', users_1.logoutUser);
 exports.default = router;
 //# sourceMappingURL=user.js.map

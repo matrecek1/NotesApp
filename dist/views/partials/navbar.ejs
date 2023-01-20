@@ -1,14 +1,33 @@
 <nav class="navbar sticky-top bg-primary navbar-expand-lg" data-bs-theme="dark">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="#">NotesApp</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-      <div class="navbar-nav ms-5">
-        <a class="nav-link active fs-4" aria-current="page" href="/notes">Notes</a>
-        <a class="nav-link fs-4" href="/notes/new">New note</a>
-      </div>
-    </div>
-  </div>
-</nav>
+    <div class="container-fluid row">
+        <a class="navbar-brand col-1" href="#">NotesApp</a>
+        <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNavAltMarkup"
+            aria-controls="navbarNavAltMarkup"
+            aria-expanded="false"
+            aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse col-9" id="navbarNavAltMarkup">
+            <div class="navbar-nav ms-5">
+                <a class="nav-link fs-4" id="notes-index-link" aria-current="page" href="/notes">Notes</a>
+                <a class="nav-link fs-4" id="new-note-link" href="/notes/new">New note</a>
+            </div>
+        </div>
+        <div class="collapse navbar-collapse ms-auto col-2" id="navbarNavAltMarkup">
+            <div class="navbar-nav ms-5">
+                <% if(!currentUser){ %>
+                <a class="nav-link fs-4" id="login-link" href="/user/login">login</a>
+                <a class="nav-link fs-4" id="register-link" aria-current="page" href="/user/register">register</a>
+                <% } else{ %>
+                <a class="nav-link fs-4"  aria-current="page" href="/user/logout">logout</a>
+                <% } %>
+            </div>
+        </div>
+    </div>  
+  </nav>
+ <script src="/js/activePage.js"></script>
+

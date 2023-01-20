@@ -10,6 +10,7 @@ import { getSorters, getNotesByTags, getNotesByCategory, Sorter } from "../utils
 
 export const index = async (req:Request, res:Response) => {
     const pages = req.pages!
+    console.log('req.user :>> ', req.user);
     const noteCount = await Note.estimatedDocumentCount()
     const pageCount = Math.ceil(noteCount / pages.notesPerPage)
     pages.numOfPages = pageCount

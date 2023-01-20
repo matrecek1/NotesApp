@@ -24,3 +24,12 @@ export const loginUser: RequestHandler = async (req, res) => {
         req.flash("success", "welcome back!");
         res.redirect("/notes");
 }
+
+export const logoutUser:RequestHandler = async (req, res,next)=>{
+    req.logout(function (err) {
+        if (err) {
+            return next(err);
+        }
+        res.redirect("/user/login");
+    });
+}

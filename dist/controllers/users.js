@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.loginUser = exports.loginForm = exports.newUser = exports.registerForm = void 0;
+exports.logoutUser = exports.loginUser = exports.loginForm = exports.newUser = exports.registerForm = void 0;
 const users_1 = require("../models/users");
 const registerForm = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     res.render('users/register');
@@ -36,4 +36,13 @@ const loginUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     res.redirect("/notes");
 });
 exports.loginUser = loginUser;
+const logoutUser = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
+    req.logout(function (err) {
+        if (err) {
+            return next(err);
+        }
+        res.redirect("/user/login");
+    });
+});
+exports.logoutUser = logoutUser;
 //# sourceMappingURL=users.js.map

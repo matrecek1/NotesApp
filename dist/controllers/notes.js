@@ -14,6 +14,7 @@ const notes_1 = require("../models/notes");
 const getSorters_1 = require("../utils/getSorters");
 const index = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const pages = req.pages;
+    console.log('req.user :>> ', req.user);
     const noteCount = yield notes_1.Note.estimatedDocumentCount();
     const pageCount = Math.ceil(noteCount / pages.notesPerPage);
     pages.numOfPages = pageCount;

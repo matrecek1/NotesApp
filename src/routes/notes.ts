@@ -4,12 +4,14 @@ import { catchAsync } from "../utils/catchAync";
 import { addDate } from "../middleware/notes/addDate";
 import { getPaginationData } from "../middleware/notes/pages";
 import { createNote, deleteNote, editNoteForm, index, newNoteForm, showNote, updateNote, getCategories, getTags } from "../controllers/notes";
+import { isLoggedIn } from "../middleware/userAuthentication";
+
 
 router.post('/', addDate, catchAsync(createNote))
 
 router.get('/new', newNoteForm)
 
-router.get('/', getPaginationData, catchAsync(index))
+router.get('/', isLoggedIn, getPaginationData, catchAsync(index))
 
 router.put('/:id', catchAsync(updateNote))
 
