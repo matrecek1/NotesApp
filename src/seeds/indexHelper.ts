@@ -357,3 +357,10 @@ export const titles: string[] =[
     "Writer",
     "Youth Worker"
 ];
+
+export const categories:string[]=[
+    'Cleaning',
+    'car',
+    'shopping',
+    'climbing'
+]

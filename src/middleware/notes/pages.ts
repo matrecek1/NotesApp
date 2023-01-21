@@ -4,7 +4,6 @@ import {Note} from '../../models/notes'
 export interface Pages {
     currentPage: number;
     notesPerPage: number;
-    numOfPages?:number;
 }
 
 

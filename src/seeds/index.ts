@@ -1,7 +1,8 @@
 import express from "express";
 import mongoose from "mongoose";
 import { Note } from '../models/notes';
-import { titles } from './indexHelper'
+import { titles, categories } from './indexHelper'
+import { User } from "../models/users";
 const app = express();
 
 
@@ -15,13 +16,17 @@ db.once("open", () => console.log("connected to database"));
 
 const seedNotes = async () => {
     await Note.deleteMany()
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 20; i++) {
         let random357 = Math.floor(Math.random() * 357);
+        let randomCat = Math.floor(Math.random() * categories.length)
         let note = new Note({
             title: titles[random357],
             noteBody: 'Exercitation veniam tempor ut dolor. Labore cupidatat dolor velit aliquip ut elit reprehenderit ullamco. Sit Lorem proident exercitation sint eu ullamco est ad sunt. Nisi consectetur tempor amet culpa qui eiusmod consequat est quis. Anim sit officia adipisicing occaecat ut eiusmod magna. Do ea aliquip non magna deserunt ea mollit elit laboris nostrud. Cillum ullamco minim eu id Lorem enim cupidatat esse cupidatat.',
-            dateOfCreation: new Date()
+            dateOfCreation: new Date(),
+            category:categories[randomCat]
         })
+        await User.updateOne({ _id:'63c8064251e2e6f6f1b28f9c'}, { $push: { notes: note } });
+
         await note.save()
     }
 }

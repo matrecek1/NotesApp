@@ -10,19 +10,19 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getTags = exports.getCategories = exports.deleteNote = exports.updateNote = exports.editNoteForm = exports.showNote = exports.createNote = exports.newNoteForm = exports.index = void 0;
+const users_1 = require("../models/users");
 const notes_1 = require("../models/notes");
 const getSorters_1 = require("../utils/getSorters");
+const notesForPage_1 = require("../utils/notesForPage");
 const index = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const pages = req.pages;
-    console.log('req.user :>> ', req.user);
-    const noteCount = yield notes_1.Note.estimatedDocumentCount();
-    const pageCount = Math.ceil(noteCount / pages.notesPerPage);
-    pages.numOfPages = pageCount;
-    const skip = pages.currentPage * pages.notesPerPage;
-    const notes = yield notes_1.Note.find().skip(skip).limit(pages.notesPerPage);
+    const user = req.user;
+    const { notes } = yield users_1.User.findById(user._id).select('notes').populate('notes');
+    const extendedPages = (0, notesForPage_1.extendPageData)(pages, notes);
+    const pagedNotes = (0, notesForPage_1.getNotesForPage)(extendedPages, notes);
     const sorters = (0, getSorters_1.getSorters)(notes);
-    res.locals.pages = req.pages;
-    res.render("notes/index", { notes, sorters });
+    res.locals.pages = extendedPages;
+    res.render("notes/index", { notes: pagedNotes, sorters });
 });
 exports.index = index;
 const newNoteForm = (req, res) => {
@@ -31,7 +31,8 @@ const newNoteForm = (req, res) => {
 exports.newNoteForm = newNoteForm;
 const createNote = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const newNote = new notes_1.Note(req.body.note);
-    // await User.updateOne({ name:"Hey" },{ $push: { notes: newNote } });
+    const user = req.user;
+    yield users_1.User.updateOne(user, { $push: { notes: newNote } });
     yield newNote.save();
     req.flash("success", "note created");
     res.redirect('/notes');
@@ -66,33 +67,43 @@ const deleteNote = (req, res, next) => __awaiter(void 0, void 0, void 0, functio
 });
 exports.deleteNote = deleteNote;
 const getCategories = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const pages = req.pages;
     const { category } = req.params;
-    const notes = yield notes_1.Note.find();
-    const sorters = (0, getSorters_1.getSorters)(notes);
+    const user = req.user;
+    const { notes } = yield users_1.User.findById(user._id).select('notes').populate('notes');
     const notesByCat = (0, getSorters_1.getNotesByCategory)(notes, category);
-    const pages = {
-        currentPage: req.pages.currentPage,
-        notesPerPage: req.pages.notesPerPage,
-        numOfPages: notesByCat.length
-    };
+    const extendedPages = (0, notesForPage_1.extendPageData)(pages, notesByCat);
+    const pagedNotes = (0, notesForPage_1.getNotesForPage)(extendedPages, notesByCat);
+    const sorters = (0, getSorters_1.getSorters)(notes);
+    res.locals.pages = extendedPages;
     res.locals.activeCategory = category;
-    res.locals.pages = pages;
-    res.render('notes/category', { sorters, notes: notesByCat });
+    res.render('notes/category', { sorters, notes: pagedNotes });
 });
 exports.getCategories = getCategories;
 const getTags = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    // const { tag } = req.params
+    // const notes = await Note.find()
+    // const sorters = getSorters(notes)
+    // const notesByTag = getNotesByTags(notes, tag)
+    // const pages: Pages = {
+    //     currentPage: req.pages!.currentPage,
+    //     notesPerPage: req.pages!.notesPerPage,
+    //     //numOfPages: notesByTag.length
+    // }
+    // res.locals.activeTag = tag
+    // res.locals.pages = pages
+    // res.render('notes/tags', { sorters, notes: notesByTag })
+    const pages = req.pages;
     const { tag } = req.params;
-    const notes = yield notes_1.Note.find();
-    const sorters = (0, getSorters_1.getSorters)(notes);
+    const user = req.user;
+    const { notes } = yield users_1.User.findById(user._id).select('notes').populate('notes');
     const notesByTag = (0, getSorters_1.getNotesByTags)(notes, tag);
-    const pages = {
-        currentPage: req.pages.currentPage,
-        notesPerPage: req.pages.notesPerPage,
-        numOfPages: notesByTag.length
-    };
+    const extendedPages = (0, notesForPage_1.extendPageData)(pages, notesByTag);
+    const pagedNotes = (0, notesForPage_1.getNotesForPage)(extendedPages, notesByTag);
+    const sorters = (0, getSorters_1.getSorters)(notes);
+    res.locals.pages = extendedPages;
     res.locals.activeTag = tag;
-    res.locals.pages = pages;
-    res.render('notes/tags', { sorters, notes: notesByTag });
+    res.render('notes/tags', { sorters, notes: pagedNotes });
 });
 exports.getTags = getTags;
 //# sourceMappingURL=notes.js.map

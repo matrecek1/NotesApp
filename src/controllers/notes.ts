@@ -1,24 +1,28 @@
 import { RequestHandler, Request, Response, NextFunction } from "express";
 import { Pages } from "../middleware/notes/pages";
 import { User} from "../models/users";
-import { Note } from '../models/notes'
+import { INote, Note } from '../models/notes'
 import { getSorters, getNotesByTags, getNotesByCategory, Sorter } from "../utils/getSorters";
-
+import { ObjectId } from "mongoose";
+import { extendPageData, getNotesForPage } from "../utils/notesForPage";
+interface IUser{
+    _id: ObjectId;
+    notes:INote[];
+    username: string;
+}
 
 
 
 
 export const index = async (req:Request, res:Response) => {
     const pages = req.pages!
-    console.log('req.user :>> ', req.user);
-    const noteCount = await Note.estimatedDocumentCount()
-    const pageCount = Math.ceil(noteCount / pages.notesPerPage)
-    pages.numOfPages = pageCount
-    const skip = pages.currentPage * pages.notesPerPage
-    const notes = await Note.find().skip(skip).limit(pages.notesPerPage)
+    const user = req.user as IUser
+    const {notes} = await User.findById(user._id).select('notes').populate('notes')
+    const extendedPages = extendPageData(pages, notes)
+    const pagedNotes:INote[] = getNotesForPage(extendedPages, notes)
     const sorters:Sorter = getSorters(notes)
-    res.locals.pages = req.pages
-    res.render("notes/index", { notes, sorters})
+    res.locals.pages = extendedPages
+    res.render("notes/index", { notes:pagedNotes, sorters})
 }  
 
 export const newNoteForm: RequestHandler = (req, res) => {
@@ -27,7 +31,8 @@ export const newNoteForm: RequestHandler = (req, res) => {
 
 export const createNote: RequestHandler = async (req, res, next) => {
     const newNote = new Note(req.body.note);
-    // await User.updateOne({ name:"Hey" },{ $push: { notes: newNote } });
+    const user = req.user as IUser
+    await User.updateOne(user,{ $push: { notes: newNote } });
     await newNote.save();
     req.flash("success", "note created")
     res.redirect('/notes')
@@ -62,31 +67,41 @@ export const deleteNote: RequestHandler<{ id: string }> = async (req, res, next)
 }
 
 export const getCategories = async (req: Request, res:Response) => {
+    const pages = req.pages!
     const { category } = req.params
-    const notes = await Note.find()
-    const sorters = getSorters(notes)
+    const user = req.user as IUser
+    const { notes } = await User.findById(user._id).select('notes').populate('notes')
     const notesByCat = getNotesByCategory(notes, category)
-    const pages:Pages = {
-        currentPage: req.pages!.currentPage,
-        notesPerPage: req.pages!.notesPerPage,
-        numOfPages: notesByCat.length
-    }
+    const extendedPages = extendPageData(pages, notesByCat)
+    const pagedNotes = getNotesForPage(extendedPages, notesByCat)
+    const sorters: Sorter = getSorters(notes)
+    res.locals.pages = extendedPages
     res.locals.activeCategory = category
-    res.locals.pages = pages
-    res.render('notes/category', { sorters, notes: notesByCat })
+    res.render('notes/category', { sorters, notes: pagedNotes })
 }
 
 export const getTags = async (req:Request, res:Response) => {
+    // const { tag } = req.params
+    // const notes = await Note.find()
+    // const sorters = getSorters(notes)
+    // const notesByTag = getNotesByTags(notes, tag)
+    // const pages: Pages = {
+    //     currentPage: req.pages!.currentPage,
+    //     notesPerPage: req.pages!.notesPerPage,
+    //     //numOfPages: notesByTag.length
+    // }
+    // res.locals.activeTag = tag
+    // res.locals.pages = pages
+    // res.render('notes/tags', { sorters, notes: notesByTag })
+    const pages = req.pages!
     const { tag } = req.params
-    const notes = await Note.find()
-    const sorters = getSorters(notes)
+    const user = req.user as IUser
+    const { notes } = await User.findById(user._id).select('notes').populate('notes')
     const notesByTag = getNotesByTags(notes, tag)
-    const pages: Pages = {
-        currentPage: req.pages!.currentPage,
-        notesPerPage: req.pages!.notesPerPage,
-        numOfPages: notesByTag.length
-    }
-    res.locals.activeTag = tag
-    res.locals.pages = pages
-    res.render('notes/tags', { sorters, notes: notesByTag })
+    const extendedPages = extendPageData(pages, notesByTag)
+    const pagedNotes = getNotesForPage(extendedPages, notesByTag)
+    const sorters: Sorter = getSorters(notes)
+    res.locals.pages = extendedPages
+    res.locals.activeTag= tag
+    res.render('notes/tags', { sorters, notes: pagedNotes })
 }

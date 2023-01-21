@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.titles = void 0;
+exports.categories = exports.titles = void 0;
 exports.titles = [
     "Academic Librarian",
     "Accountant",
@@ -359,5 +359,11 @@ exports.titles = [
     "Welfare Rights Adviser",
     "Writer",
     "Youth Worker"
+];
+exports.categories = [
+    'Cleaning',
+    'car',
+    'shopping',
+    'climbing'
 ];
 //# sourceMappingURL=indexHelper.js.map
