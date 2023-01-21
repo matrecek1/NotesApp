@@ -17,7 +17,13 @@
     </head>
     <body class="d-flex flex-column vh-100">
         <%- include('../partials/navbar') %>
-        <main class="container-fluid mt-5"><%- include('../partials/flash') %> <%- body -%></main>
+        <main class="container-fluid mt-5">
+            <div><%- include('../partials/flash') %></div>
+            <section><%- body -%></section>
+        </main>
         <%- include('../partials/footer') %>
+        
     </body>
 </html>
+<link rel="stylesheet" href="/css/style.css" />
+

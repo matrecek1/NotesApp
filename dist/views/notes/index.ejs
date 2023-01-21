@@ -1,9 +1,9 @@
 <% layout('/layout/boilerplate') -%>
-<div class="row row-cols-md-1 row-cols-2 text-center">
+<div id="note-grid" class="row row-cols-md-1 row-cols-2 text-center">
     <%- include('../partials/sideNav') %>
-    <div class="col-xxl-8 col-md-8 col-xl-10 col-10 offset-1 offset-md-0">
+    <div  class="col-xxl-8 col-md-8 col-xl-10 col-10 offset-1 offset-md-0 container-fluid">
         <%- include('../partials/notesGrid') %> 
-        <nav aria-label="Page navigation example">
+        <nav id="pagination-nav" class="p-2 mt-auto" aria-label="Page navigation">
             <ul class="pagination">
                 <li class="page-item"><a class="page-link" id="prev-page" href="/notes?p=<%= pages.currentPage > 0?pages.currentPage-1:pages.currentPage %> ">Previous</a></li>
                 <% for(let i=0;i < pages.numOfPages; i++) {%>
@@ -16,6 +16,8 @@
     </div>
 </div>
 <link rel="stylesheet" href="css/notes/index.css" />
+<script src="/js/pagination.js"></script>
+
 
 
 
