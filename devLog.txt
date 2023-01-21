@@ -3,5 +3,6 @@ TODO! when register throws error its shitty UX
 TODO! Edit and delete left behind
 TODO authentication and notes for users
 TODO fix ejs pagination
+TODO redo tests
 
 
