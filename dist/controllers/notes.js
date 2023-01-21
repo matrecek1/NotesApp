@@ -10,12 +10,14 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getTags = exports.getCategories = exports.deleteNote = exports.updateNote = exports.editNoteForm = exports.showNote = exports.createNote = exports.newNoteForm = exports.index = void 0;
+const users_1 = require("../models/users");
 const notes_1 = require("../models/notes");
 const getSorters_1 = require("../utils/getSorters");
 const index = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const pages = req.pages;
-    console.log('req.user :>> ', req.user);
+    const user = req.user;
     const noteCount = yield notes_1.Note.estimatedDocumentCount();
+    //const noteCount = await User.findById(user._id)
     const pageCount = Math.ceil(noteCount / pages.notesPerPage);
     pages.numOfPages = pageCount;
     const skip = pages.currentPage * pages.notesPerPage;
@@ -31,7 +33,8 @@ const newNoteForm = (req, res) => {
 exports.newNoteForm = newNoteForm;
 const createNote = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
     const newNote = new notes_1.Note(req.body.note);
-    // await User.updateOne({ name:"Hey" },{ $push: { notes: newNote } });
+    const user = req.user;
+    yield users_1.User.updateOne(user, { $push: { notes: newNote } });
     yield newNote.save();
     req.flash("success", "note created");
     res.redirect('/notes');

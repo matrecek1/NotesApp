@@ -1,17 +1,23 @@
 import { RequestHandler, Request, Response, NextFunction } from "express";
 import { Pages } from "../middleware/notes/pages";
 import { User} from "../models/users";
-import { Note } from '../models/notes'
+import { INote, Note } from '../models/notes'
 import { getSorters, getNotesByTags, getNotesByCategory, Sorter } from "../utils/getSorters";
-
+import { ObjectId } from "mongoose";
+interface IUser{
+    _id: ObjectId;
+    notes:INote[];
+    username: string;
+}
 
 
 
 
 export const index = async (req:Request, res:Response) => {
     const pages = req.pages!
-    console.log('req.user :>> ', req.user);
+    const user = req.user as IUser
     const noteCount = await Note.estimatedDocumentCount()
+    //const noteCount = await User.findById(user._id)
     const pageCount = Math.ceil(noteCount / pages.notesPerPage)
     pages.numOfPages = pageCount
     const skip = pages.currentPage * pages.notesPerPage
@@ -27,7 +33,8 @@ export const newNoteForm: RequestHandler = (req, res) => {
 
 export const createNote: RequestHandler = async (req, res, next) => {
     const newNote = new Note(req.body.note);
-    // await User.updateOne({ name:"Hey" },{ $push: { notes: newNote } });
+    const user = req.user as IUser
+    await User.updateOne(user,{ $push: { notes: newNote } });
     await newNote.save();
     req.flash("success", "note created")
     res.redirect('/notes')
