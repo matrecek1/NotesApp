@@ -16,6 +16,7 @@ const express_1 = __importDefault(require("express"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const notes_1 = require("../models/notes");
 const indexHelper_1 = require("./indexHelper");
+const users_1 = require("../models/users");
 const app = (0, express_1.default)();
 mongoose_1.default.connect('mongodb://127.0.0.1:27017/notesapp');
 console.log("Connected to db");
@@ -24,13 +25,16 @@ db.on("error", console.error.bind(console, "connection error: "));
 db.once("open", () => console.log("connected to database"));
 const seedNotes = () => __awaiter(void 0, void 0, void 0, function* () {
     yield notes_1.Note.deleteMany();
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 20; i++) {
         let random357 = Math.floor(Math.random() * 357);
+        let randomCat = Math.floor(Math.random() * indexHelper_1.categories.length);
         let note = new notes_1.Note({
             title: indexHelper_1.titles[random357],
             noteBody: 'Exercitation veniam tempor ut dolor. Labore cupidatat dolor velit aliquip ut elit reprehenderit ullamco. Sit Lorem proident exercitation sint eu ullamco est ad sunt. Nisi consectetur tempor amet culpa qui eiusmod consequat est quis. Anim sit officia adipisicing occaecat ut eiusmod magna. Do ea aliquip non magna deserunt ea mollit elit laboris nostrud. Cillum ullamco minim eu id Lorem enim cupidatat esse cupidatat.',
-            dateOfCreation: new Date()
+            dateOfCreation: new Date(),
+            category: indexHelper_1.categories[randomCat]
         });
+        yield users_1.User.updateOne({ _id: '63c8064251e2e6f6f1b28f9c' }, { $push: { notes: note } });
         yield note.save();
     }
 });
