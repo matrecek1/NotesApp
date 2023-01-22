@@ -1,0 +1,16 @@
+
+.card{
+    min-height: 70%;
+}
+
+#show-container{
+     min-height: 90vh;
+}
+
+main{
+    min-height: 80vh;
+}
+
+main section {
+    min-height: 100%;
+}

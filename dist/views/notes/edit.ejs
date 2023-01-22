@@ -1,12 +1,24 @@
 <% layout('/layout/boilerplate') -%>
-<form action="/notes/<%= note._id %>?_method=PUT" method="post">
-    <div class="mb-3">
-        <label for="form-title" class="form-label">Title</label>
-        <input type="text" value="<%= note.title %> " name="note[title]" id="form-title" class="form-control">
+<div class="row">
+    <div class="col-xl-4 offset-xl-4 col-md-6 offset-md-3 col-10 offset-1">
+        <form action="/notes/<%= note._id %>?_method=PUT" method="post">
+           <div class="mb-3">
+                <label for="form-title" class="form-label">Title</label>
+                <input type="text" value="<%= note.title %> " name="note[title]" id="form-title" class="form-control" />
+            </div>
+            <div class="mb-3">
+                <label for="form-body" class="form-label">Text</label>
+                <input type="text" value="<%= note.noteBody %> " name="note[noteBody]" id="form-body" class="form-control" />
+            </div>
+            <div class="mb-3">
+                <label for="form-categories" class="form-label">Categories</label>
+                <input type="text" name="note[category]" value="<%= note.category %> " id="form-categories" class="form-control" />
+            </div>
+            <div class="mb-3">
+                <label for="form-tags" class="form-label">Tags</label>
+                <input type="text" name="note[tags]" value="<%= note.tags %> " id="form-tags" class="form-control" />
+            </div>
+            <button class="btn btn-primary" type="submit">Submit</button>
+        </form>
     </div>
-    <div class="mb-3">
-        <label for="form-body" class="form-label">Title</label>
-        <input type="text" value="<%= note.noteBody %> " name="note[noteBody]" id="form-body" class="form-control">
-    </div>
-    <button class="btn btn-primary" type="submit">Submit</button>
-</form>
+</div>

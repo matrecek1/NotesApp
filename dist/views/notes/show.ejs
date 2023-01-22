@@ -1,7 +1,7 @@
 <% layout('/layout/boilerplate') -%>
-<div class="row vh-100">
-    <div class="col-8 offset-2">
-        <div style="height:90%" class="card text-center w-100">
+<div id="show-container" class="row">
+    <div class="col-xxl-4 offset-xxl-4 col-md-6 offset-md-3 col-10 offset-1">
+        <div class="card text-center w-100">
             <div class="card-header">
                 <div class="card-links ms-auto">
                     <a href="/notes/<%= note._id %>/edit">edit</a>
@@ -14,7 +14,11 @@
                 <h5 class="card-title fs-2"><%= note.title %> </h5>
                 <p class="card-text fs-3"><%= note.noteBody %></p>
             </div>
+            <div class="card-body mt-auto d-flex flex-column justify-content-end">
+                <div class="">Category: <%= note.category %> </div>
+                <div class="">Tags: <%= note.tags %> </div>
+            </div>
         </div>
     </div>
 </div>
-<link rel="stylesheet" href="css/notes/show.css">
+<link rel="stylesheet" href="/css/notes/show.css">
