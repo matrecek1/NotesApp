@@ -1,18 +1,10 @@
 "use strict";
 const pageItems = document.querySelectorAll('.page-item');
 console.log(pageItems);
-const activeItemIndex = (collection) => {
-    let output = -1;
-    collection.forEach((element, index) => {
-        if (element.classList.contains('active')) {
-            output = index;
-        }
-    });
-    return output;
-};
-if (pageItems.length === 3) {
+if (pageItems[1].classList.contains('active')) {
     pageItems[0].classList.add('disabled');
-    pageItems[2].classList.add('disabled');
 }
-console.log(activeItemIndex(pageItems));
+if (pageItems[pageItems.length - 2].classList.contains('active')) {
+    pageItems[pageItems.length - 1].classList.add('disabled');
+}
 //# sourceMappingURL=pagination.js.map

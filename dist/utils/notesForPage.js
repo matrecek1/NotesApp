@@ -3,11 +3,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getNotesForPage = exports.extendPageData = void 0;
 const extendPageData = (pages, notes) => {
     const noteCount = notes.length;
-    const pageCount = Math.ceil(noteCount / pages.notesPerPage);
-    const numOfPages = pageCount;
-    const skip = pages.currentPage * pages.notesPerPage;
-    const extendedPages = Object.assign(Object.assign({}, pages), { numOfPages,
-        skip });
+    const pageCount = Math.ceil(noteCount === 0 ? 1 : noteCount / pages.notesPerPage);
+    const extendedPages = Object.assign(Object.assign({}, pages), { numOfPages: pageCount, skip: pages.currentPage * pages.notesPerPage });
     return extendedPages;
 };
 exports.extendPageData = extendPageData;

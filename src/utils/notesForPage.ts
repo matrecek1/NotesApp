@@ -8,13 +8,11 @@ interface ExtendedPages extends Pages{
 
 export const extendPageData = (pages:Pages, notes:INote[]):ExtendedPages =>{
     const noteCount = notes.length
-    const pageCount = Math.ceil(noteCount / pages.notesPerPage)
-    const numOfPages = pageCount
-    const skip = pages.currentPage * pages.notesPerPage
+    const pageCount = Math.ceil(noteCount===0? 1:noteCount / pages.notesPerPage)
     const extendedPages: ExtendedPages = {
         ...pages,
-        numOfPages,
-        skip
+        numOfPages:pageCount,
+        skip: pages.currentPage * pages.notesPerPage
     }
     return extendedPages
 }
