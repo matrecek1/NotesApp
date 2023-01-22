@@ -36,7 +36,7 @@ main().catch(err => console.log(err));
 function main() {
     return __awaiter(this, void 0, void 0, function* () {
         yield mongoose_1.default.connect(dbUrl);
-        console.log("Connected to db");
+        console.log(`connected to db: ${dbUrl}`);
     });
 }
 app.engine("ejs", ejs_mate_1.default);
@@ -45,7 +45,8 @@ app.set("view engine", 'ejs');
 app.use((0, express_session_1.default)({
     store: connect_mongo_1.default.create({
         mongoUrl: dbUrl,
-        touchAfter: 24 * 3600
+        touchAfter: 24 * 3600,
+        secret
     }),
     name: "session",
     secret: secret,
