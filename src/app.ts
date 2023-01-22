@@ -17,8 +17,7 @@ import userRoutes from './routes/user'
 
 const app = express();
 const port = process.env.PORT || "3000";
-//const dbUrl = process.env.DB_URL || "mongodb://127.0.0.1:27017/notesapp";
-const dbUrl = "mongodb://127.0.0.1:27017/notesapp"
+const dbUrl = process.env.DB_URL || "mongodb://127.0.0.1:27017/notesapp";
 const secret = process.env.SECRET || "thisisasecret";
 main().catch(err => console.log(err));
 async function main() {
