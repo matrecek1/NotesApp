@@ -8,7 +8,7 @@
             </div>
             <div class="mb-3">
                 <label for="form-body" class="form-label">Text</label>
-                <input type="text" value="<%= note.noteBody %> " name="note[noteBody]" id="form-body" class="form-control" />
+                <textarea type="text" name="note[noteBody]" id="form-body" class="form-control"><%= note.noteBody %></textarea>
             </div>
             <div class="mb-3">
                 <label for="form-categories" class="form-label">Categories</label>
@@ -18,7 +18,12 @@
                 <label for="form-tags" class="form-label">Tags</label>
                 <input type="text" name="note[tags]" value="<%= note.tags %> " id="form-tags" class="form-control" />
             </div>
-            <button class="btn btn-primary" type="submit">Submit</button>
+            <button class="btn btn-primary" type="submit">
+                <span class="spinner-border visually-hidden spinner-border-sm" role="status" aria-hidden="true"></span>
+                <span>Edit</span>
+            </button>
         </form>
     </div>
 </div>
+<script src="/js/submitingForms.js"></script>
+
