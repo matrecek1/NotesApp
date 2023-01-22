@@ -35,6 +35,7 @@ const secret = process.env.SECRET || "thisisasecret";
 main().catch(err => console.log(err));
 function main() {
     return __awaiter(this, void 0, void 0, function* () {
+        mongoose_1.default.set('strictQuery', false);
         yield mongoose_1.default.connect(dbUrl);
         console.log(`connected to db: ${dbUrl}`);
     });
@@ -57,7 +58,7 @@ app.use((0, express_session_1.default)({
     saveUninitialized: true,
 }));
 app.use((0, connect_flash_1.default)());
-app.use(express_1.default.urlencoded());
+app.use(express_1.default.urlencoded({ extended: true }));
 app.use(express_1.default.json());
 app.use((0, method_override_1.default)('_method'));
 app.use(express_1.default.static(path_1.default.join(__dirname, './public')));

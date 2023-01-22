@@ -22,6 +22,7 @@ const dbUrl = process.env.DB_URL || "mongodb://127.0.0.1:27017/notesapp";
 const secret = process.env.SECRET || "thisisasecret";
 main().catch(err => console.log(err));
 async function main() {
+    mongoose.set('strictQuery', false)
     await mongoose.connect(dbUrl);
     console.log(`connected to db: ${dbUrl}`);
 }
@@ -45,7 +46,7 @@ app.use(session({
     saveUninitialized: true,
 }))
 app.use(flash())
-app.use(express.urlencoded())
+app.use(express.urlencoded({extended:true}))
 app.use(express.json())
 app.use(methodOverride('_method'))
 app.use(express.static(path.join(__dirname, './public')))
