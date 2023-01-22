@@ -11,6 +11,7 @@ import flash from 'connect-flash';
 import passport from "passport"
 import LocalStrategy from "passport-local"
 import { User } from './models/users';
+import MongoStore from 'connect-mongo';
 
 import notesRoutes from './routes/notes'
 import userRoutes from './routes/user'
@@ -27,8 +28,16 @@ async function main() {
 app.engine("ejs", ejsMate)
 app.set("views", path.join(__dirname, 'views'))
 app.set("view engine", 'ejs')
+
+
 app.use(session({
+    store: MongoStore.create({
+        mongoUrl:dbUrl,
+        touchAfter: 24 * 3600
+    }),
+    name:"session",
     secret: secret,
+    resave:false,
     cookie: {
         maxAge: 1000 * 60 * 60 * 24 * 7,
     },

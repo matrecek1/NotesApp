@@ -25,6 +25,7 @@ const connect_flash_1 = __importDefault(require("connect-flash"));
 const passport_1 = __importDefault(require("passport"));
 const passport_local_1 = __importDefault(require("passport-local"));
 const users_1 = require("./models/users");
+const connect_mongo_1 = __importDefault(require("connect-mongo"));
 const notes_1 = __importDefault(require("./routes/notes"));
 const user_1 = __importDefault(require("./routes/user"));
 const app = (0, express_1.default)();
@@ -42,7 +43,13 @@ app.engine("ejs", ejs_mate_1.default);
 app.set("views", path_1.default.join(__dirname, 'views'));
 app.set("view engine", 'ejs');
 app.use((0, express_session_1.default)({
+    store: connect_mongo_1.default.create({
+        mongoUrl: dbUrl,
+        touchAfter: 24 * 3600
+    }),
+    name: "session",
     secret: secret,
+    resave: false,
     cookie: {
         maxAge: 1000 * 60 * 60 * 24 * 7,
     },
