@@ -23,7 +23,7 @@ const secret = process.env.SECRET || "thisisasecret";
 main().catch(err => console.log(err));
 async function main() {
     await mongoose.connect(dbUrl);
-    console.log("Connected to db");
+    console.log(`connected to db: ${dbUrl}`);
 }
 app.engine("ejs", ejsMate)
 app.set("views", path.join(__dirname, 'views'))
