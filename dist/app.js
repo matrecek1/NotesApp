@@ -29,7 +29,7 @@ const connect_mongo_1 = __importDefault(require("connect-mongo"));
 const notes_1 = __importDefault(require("./routes/notes"));
 const user_1 = __importDefault(require("./routes/user"));
 const app = (0, express_1.default)();
-const port = process.env.PORT || "8080";
+const port = process.env.PORT || "3000";
 const dbUrl = process.env.DB_URL || "mongodb://127.0.0.1:27017/notesapp";
 const secret = process.env.SECRET || "thisisasecret";
 main().catch(err => console.log(err));
@@ -72,6 +72,9 @@ app.use((req, res, next) => {
     res.locals.success = req.flash("success");
     res.locals.error = req.flash("error");
     next();
+});
+app.get('/', (req, res, next) => {
+    res.redirect('/notes');
 });
 app.use("/notes", notes_1.default);
 app.use('/user', user_1.default);

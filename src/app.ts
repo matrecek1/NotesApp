@@ -17,7 +17,7 @@ import notesRoutes from './routes/notes'
 import userRoutes from './routes/user'
 
 const app = express();
-const port = process.env.PORT || "8080";
+const port = process.env.PORT || "3000";
 const dbUrl = process.env.DB_URL || "mongodb://127.0.0.1:27017/notesapp";
 const secret = process.env.SECRET || "thisisasecret";
 main().catch(err => console.log(err));
@@ -62,7 +62,9 @@ app.use((req, res, next) => {
     res.locals.error = req.flash("error");
     next();
 });
-
+app.get('/', (req:Request,res:Response,next:NextFunction) =>{
+    res.redirect('/notes')
+})
 app.use("/notes", notesRoutes)
 app.use('/user', userRoutes)
 
