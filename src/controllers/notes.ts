@@ -61,8 +61,10 @@ export const updateNote: RequestHandler<{ id: string }> = async (req, res, next)
 }
 
 export const deleteNote: RequestHandler<{ id: string }> = async (req, res, next) => {
-    const { id } = req.params
-    const note = await Note.findByIdAndDelete(id)
+    const {_id:userId} = req.user as IUser
+    const { id:noteId } = req.params
+    await User.findByIdAndUpdate(userId, { $pull: { notes: noteId } });
+    const note = await Note.findByIdAndDelete(noteId)
     res.redirect('/notes')
 }
 

@@ -25,7 +25,7 @@ const seedNotes = async () => {
             dateOfCreation: new Date(),
             category:categories[randomCat]
         })
-        await User.updateOne({ _id:'63c8064251e2e6f6f1b28f9c'}, { $push: { notes: note } });
+        await User.updateOne({ username:"test"}, { $push: { notes: note } });
 
         await note.save()
     }

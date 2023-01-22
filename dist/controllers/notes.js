@@ -61,8 +61,10 @@ const updateNote = (req, res, next) => __awaiter(void 0, void 0, void 0, functio
 });
 exports.updateNote = updateNote;
 const deleteNote = (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    const { id } = req.params;
-    const note = yield notes_1.Note.findByIdAndDelete(id);
+    const { _id: userId } = req.user;
+    const { id: noteId } = req.params;
+    yield users_1.User.findByIdAndUpdate(userId, { $pull: { notes: noteId } });
+    const note = yield notes_1.Note.findByIdAndDelete(noteId);
     res.redirect('/notes');
 });
 exports.deleteNote = deleteNote;

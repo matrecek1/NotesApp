@@ -34,7 +34,7 @@ const seedNotes = () => __awaiter(void 0, void 0, void 0, function* () {
             dateOfCreation: new Date(),
             category: indexHelper_1.categories[randomCat]
         });
-        yield users_1.User.updateOne({ _id: '63c8064251e2e6f6f1b28f9c' }, { $push: { notes: note } });
+        yield users_1.User.updateOne({ username: "test" }, { $push: { notes: note } });
         yield note.save();
     }
 });
