@@ -33,7 +33,8 @@ app.set("view engine", 'ejs')
 app.use(session({
     store: MongoStore.create({
         mongoUrl:dbUrl,
-        touchAfter: 24 * 3600
+        touchAfter: 24 * 3600,
+        secret
     }),
     name:"session",
     secret: secret,
