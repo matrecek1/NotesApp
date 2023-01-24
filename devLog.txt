@@ -1,7 +1,7 @@
-TODO Improve layout
 TODO! when register throws error its shitty UX
 TODO! Edit and delete left behind
 TODO tags dont work
+TODO test more models!
 
 
 
