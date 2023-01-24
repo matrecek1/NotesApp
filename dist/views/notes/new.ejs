@@ -1,14 +1,16 @@
 <% layout('/layout/boilerplate') -%>
 <div class="row">
     <div class="col-xl-4 offset-xl-4 col-md-6 offset-md-3 col-10 offset-1">
-        <form action="/notes" method="post">
+        <form class="needs-validation" action="/notes" method="post">
             <div class="mb-3">
                 <label for="form-title" class="form-label">Title</label>
-                <input type="text" name="note[title]" id="form-title" class="form-control" />
+                <input type="text" name="note[title]" id="form-title" class="form-control" required />
+                <div class="valid-feedback">Looks good!</div>
+                <div class="invalid-feedback">Note must have a title!</div>
             </div>
             <div class="mb-3">
                 <label for="form-body" class="form-label">Text</label>
-                <textarea type="text" name="note[noteBody]" id="form-body" class="form-control"></textarea>
+                <textarea type="text" name="note[noteBody]" required id="form-body" class="form-control"></textarea>
             </div>
             <div class="mb-3">
                 <label for="form-categories" class="form-label">Categories</label>
@@ -20,11 +22,9 @@
             </div>
             <button class="btn btn-primary" type="submit">
                 <span class="spinner-border visually-hidden spinner-border-sm" role="status" aria-hidden="true"></span>
-                <span>Edit</span>
+                <span>Submit</span>
             </button>
         </form>
     </div>
 </div>
 <script src="/js/submitingForms.js"></script>
-
-

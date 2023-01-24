@@ -20,8 +20,10 @@ const newUser = (req, res, next) => __awaiter(void 0, void 0, void 0, function* 
     const user = new users_1.User({ username });
     const registeredUser = yield users_1.User.register(user, password);
     req.login(registeredUser, (err) => {
-        if (err)
-            return next(err);
+        if (err) {
+            req.flash('error', err);
+            return res.redirect('/user/register');
+        }
         req.flash("success", "Welcome to Yelp Camp!");
         res.redirect("/notes");
     });

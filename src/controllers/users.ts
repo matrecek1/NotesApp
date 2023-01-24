@@ -6,14 +6,17 @@ export const registerForm: RequestHandler = async (req, res) => {
 }
 
 export const newUser:RequestHandler = async(req, res, next) =>{
-    const { username, password } = req.body;
-    const user = new User({ username });
-    const registeredUser = await User.register(user, password);
-    req.login(registeredUser, (err) => {
-        if (err) return next(err);
-        req.flash("success", "Welcome to Yelp Camp!");
-        res.redirect("/notes");
-})
+        const { username, password } = req.body;
+        const user = new User({ username });
+        const registeredUser = await User.register(user, password);
+        req.login(registeredUser, (err) => {
+            if (err) {
+                req.flash('error', err)
+                return res.redirect('/user/register')
+            }
+            req.flash("success", "Welcome to Yelp Camp!");
+            res.redirect("/notes");
+        })
 }
 
 export const loginForm: RequestHandler = async (req, res) => {
